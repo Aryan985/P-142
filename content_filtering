@@ -1,0 +1,19 @@
+from sklearn.feature_extraction.text import CountVectorizer
+count = CountVectorizer(stop_words = "english")
+countdata = count.fit_transform(df["title"])
+
+from sklearn.metrics.pairwise import cosine_similarity
+modal = cosine_similarity(countdata,countdata)
+
+df=df.reset_index()
+index = pd.Series(df.index,index=df["title"])
+
+def final(title,modal):
+  idx = index[title]
+  scores = list(enumerate(modal[idx]))
+  scores = sorted(scores,key=lambda x:x[1],reverse=True)
+  scores = scores[1:11]
+  movies = [i[0] for i in scores]
+  return df["title"].iloc[movies]
+
+  final("front in bh 2016",modal)

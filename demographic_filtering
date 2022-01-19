@@ -1,0 +1,23 @@
+import pandas as pd
+df1=pd.read_csv("shared_articles.csv")
+df2=pd.read_csv("users_interactions.csv")
+df = df2.merge(df1,on = "timestamp")
+df = df[df["eventType_y"]=="CONTENT SHARED"]
+
+totallikes = df[df["eventType_x"]=="LIKE"].shape[0]
+print(totallikes)
+totalviews = df[df["eventType_x"]=="VIEW"].shape[0]
+print(totalviews)
+
+def low(x):
+  if isinstance(x,str):
+    return x.lower()
+  else:
+    return""
+df["title"]=df["title"].apply(low)
+df.head()
+
+bookmark = df[df["eventType_x"]=="BOOKMARK"].shape[0]
+print(bookmark)
+follow = df[df["eventType_x"]=="FOLLOW"].shape[0]
+print(follow)
